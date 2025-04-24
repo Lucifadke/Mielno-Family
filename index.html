@@ -12,7 +12,6 @@
     <p id="countdown" class="countdown">Countdown lädt...</p>
     <a href="inhalte.html" class="button">Los geht’s</a>
   </div>
-
   <script>
     const countdown = () => {
       const end = new Date("2025-08-22T12:00:00");
@@ -22,7 +21,7 @@
       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
-      return `Noch ${d} Tage, ${h} Stunden, ${m} Minuten`;
+      return `Noch ${d} Tage, ${h} Std, ${m} Min`;
     };
     document.getElementById("countdown").innerText = countdown();
     setInterval(() => {

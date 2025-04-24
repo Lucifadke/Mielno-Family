@@ -2,71 +2,78 @@
 body {
   font-family: sans-serif;
   margin: 0;
-  background: #e3f2fd;
+  background: #f2f8fc;
   color: #003554;
 }
 header {
   background: #0277bd;
   color: white;
   text-align: center;
-  padding: 1.5rem;
-}
-nav {
-  margin-top: 1rem;
+  padding: 1rem;
 }
 nav a {
-  margin: 0 0.5rem;
+  margin: 0 1rem;
   color: white;
-  font-weight: bold;
   text-decoration: none;
+  font-weight: bold;
 }
 main {
   padding: 2rem;
 }
 footer {
-  text-align: center;
-  padding: 1rem;
   background: #01579b;
   color: white;
-}
-img {
-  max-width: 100%;
-  border-radius: 8px;
-  margin-top: 1rem;
-}
-input[type='text'] {
-  margin-left: 0.5rem;
-  padding: 4px;
-}
-body.startpage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   text-align: center;
+  padding: 1rem;
+}
+.startpage {
   background: linear-gradient(to bottom right, #e3f2fd, #b2ebf2);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .centerbox {
-  padding: 2rem;
-  max-width: 90%;
+  text-align: center;
 }
-.centerbox h1 {
-  font-size: 2.8rem;
+.button {
+  background-color: #0277bd;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+  margin-top: 1rem;
 }
 .countdown {
   font-size: 1.8rem;
   margin: 2rem 0;
   font-weight: bold;
 }
-.button {
-  font-size: 1.2rem;
-  text-decoration: none;
-  background: #0277bd;
+.back-button {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: #0277bd;
   color: white;
-  padding: 0.75rem 2rem;
-  border-radius: 2rem;
-  transition: 0.3s;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
 }
-.button:hover {
-  background: #01579b;
+input[type='text'] {
+  padding: 6px;
+  margin-left: 6px;
+}
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid #0277bd;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
 }
