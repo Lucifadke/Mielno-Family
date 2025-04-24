@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sommer Urlaub 2025 – Mielno Family</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="startpage">
+  <div class="centerbox">
+    <h1>🌞 Sommer Urlaub 2025<br>Mielno – Family</h1>
+    <p id="countdown" class="countdown">Countdown lädt...</p>
+    <a href="inhalte.html" class="button">Los geht’s</a>
+  </div>
+
+  <script>
+    const countdown = () => {
+      const end = new Date("2025-08-22T12:00:00");
+      const now = new Date();
+      const diff = end - now;
+      if (diff <= 0) return "🎉 Es geht loooos!";
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      return `Noch ${d} Tage, ${h} Stunden, ${m} Minuten`;
+    };
+    document.getElementById("countdown").innerText = countdown();
+    setInterval(() => {
+      document.getElementById("countdown").innerText = countdown();
+    }, 60000);
+  </script>
+</body>
+</html>
