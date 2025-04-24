@@ -1,44 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Urlaub 2025 – Mielno</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: linear-gradient(to bottom right, #cbe3f1, #a2d4f4);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: #003554;
-      padding: 2rem;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      font-size: 1.25rem;
-    }
-    .tag {
-      background: white;
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      font-weight: bold;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      margin-top: 1rem;
-    }
-  </style>
+  <title>Urlaub Mielno 2025</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>☀️ Unser Sommerurlaub 2025</h1>
-  <p>Die Urlaubseite ist online und bereit für euch!</p>
-  <div class="tag">#Mielno #Urlaub8Pax</div>
+  <header>
+    <h1>☀️ Urlaub Mielno 2025</h1>
+    <p id="countdown">Countdown lädt...</p>
+    <nav>
+      <a href="#unterkunft">🏡 Unterkunft</a>
+      <a href="#teilnehmer">👨‍👩‍👧‍👦 Teilnehmer</a>
+      <a href="#packliste">🧳 Packliste</a>
+      <a href="#anfahrt">📍 Anfahrt</a>
+      <a href="#fun">🎉 Fun</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="unterkunft">
+      <h2>🏡 Unterkunft</h2>
+      <p><strong>Gebucht:</strong> Ferienhaus PPO805 in Mielno – 900 m vom Strand</p>
+      <p><strong>Check-in:</strong> 23.08.2025 · <strong>Check-out:</strong> 30.08.2025 · 8 Gäste</p>
+      <img src="https://images.novasol.com/image/upload/w_900,c_limit,q_auto/f_auto/v1/novasol/images/property/PPO805_ext001.jpg" alt="Haus Mielno" />
+    </section>
+
+    <section id="teilnehmer">
+      <h2>👨‍👩‍👧‍👦 Teilnehmer</h2>
+      <ul>
+        <li>Kenny – Organisator & Chillmeister 🧃</li>
+        <li>Marlén – Sonnenanbeterin ☀️</li>
+        <li>Mayla (6) – große Schwester 🎨</li>
+        <li>Jolie (4) – Chaos & Lachen 🤪</li>
+        <li>Leo (4) – Dino-Fan 🦖</li>
+        <li>Andreas (Opa) – Ruhe in Person 🧘</li>
+        <li>Marion (Oma) – Stimmungsmacherin 🎶</li>
+        <li>Sven – Für alles zu haben 😎</li>
+      </ul>
+    </section>
+
+    <section id="packliste">
+      <h2>🧳 Packliste</h2>
+      <ul>
+        <li><input type="checkbox" /> Badehandtücher & Strandmatten</li>
+        <li><input type="checkbox" /> Sonnencreme, After Sun, Sonnenbrillen</li>
+        <li><input type="checkbox" /> Badeanzüge, Schwimmflügel & UV-Shirts</li>
+        <li><input type="checkbox" /> Spielsachen für den Strand</li>
+        <li><input type="checkbox" /> Persönliche Kleidung</li>
+        <li><input type="checkbox" /> Reiseapotheke</li>
+        <li><input type="checkbox" /> Snacks & Getränke für die Fahrt</li>
+        <li><input type="checkbox" /> Grillzubehör & Kohle</li>
+        <li><input type="checkbox" /> Plantschbecken (groß)</li>
+      </ul>
+    </section>
+
+    <section id="anfahrt">
+      <h2>📍 Anfahrt</h2>
+      <p>Abfahrt: Hamburg (Kiwittsmoor 8A) → Ziel: PPO805, Mielno (Polen)</p>
+      <p>Ca. 6,5–7,5 Stunden Fahrtzeit</p>
+      <p><a href="https://www.google.com/maps/dir/Hamburg/Mielno,+Polen" target="_blank">Route in Google Maps öffnen</a></p>
+    </section>
+
+    <section id="fun">
+      <h2>🎉 Fun & Extras</h2>
+      <ul>
+        <li>📸 Gemeinsame Fotogalerie (per WhatsApp)</li>
+        <li>🎶 Playlist „Mielno 2025“ für unterwegs</li>
+        <li>🏖️ Sandburg-Wettbewerb & Grill-Battle</li>
+        <li>📝 Gästebuch / Urlaubstagebuch</li>
+        <li>🎲 Spielesammlung für abends</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Urlaub Mielno | Erstellt mit Liebe von Kenny & Co.</p>
+  </footer>
+
+  <script>
+    const countdown = () => {
+      const end = new Date("2025-08-22T12:00:00");
+      const now = new Date();
+      const diff = end - now;
+      if (diff <= 0) return "🎉 Es geht loooos!";
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      return `${d} Tage, ${h} Std, ${m} Min`;
+    };
+    document.getElementById("countdown").innerText = countdown();
+    setInterval(() => {
+      document.getElementById("countdown").innerText = countdown();
+    }, 60000);
+  </script>
 </body>
 </html>
