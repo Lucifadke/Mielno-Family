@@ -9,11 +9,11 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f2f8ff;
+      background-color: #e7f4ff;
       color: #333;
     }
     header {
-      background: url('5616496-das-sonnenbaden-am-strand-am-meer-lufttrockner-foto-ansicht-der-ostseekueste-auf-der-halbinsel-hel-jastarnia-puck-bay-in-polen-jpg-blog.jpg') no-repeat center center/cover;
+      background: url('Landingpage_1200x400_4934_Mexiko.jpg') no-repeat center center/cover;
       padding: 3rem;
       text-align: center;
       color: white;
@@ -50,16 +50,24 @@
       padding: 0.6rem;
       text-align: left;
     }
-    img.gallery {
-      width: 100%;
-      max-width: 1000px;
-      margin: 1rem auto;
-      display: block;
+    img.fixed {
+      width: 48%;
+      margin: 1rem 1%;
       border-radius: 8px;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .gallery-container {
+      text-align: center;
+      margin-top: 2rem;
     }
     @media (max-width: 600px) {
       input {
         width: 100%;
+      }
+      img.fixed {
+        width: 100%;
+        margin: 0.5rem 0;
       }
     }
   </style>
@@ -89,9 +97,10 @@
       <tbody></tbody>
     </table>
 
-    <img class="gallery" src="ppo805_outdoor_01.jpg" alt="Außenbereich">
-    <img class="gallery" src="ppo805_living_03.jpg" alt="Wohnbereich">
-    <img class="gallery" src="5616495-danzig-mit-schoener-altstadt-ueber-dem-fluss-motlawa-bei-sonnenuntergang-polen-jpg-blog.jpg" alt="Danzig bei Sonnenuntergang">
+    <div class="gallery-container">
+      <img class="fixed" src="ppo805_outdoor_04.jpg" alt="Deko 1">
+      <img class="fixed" src="ppo805_outdoor_06.jpg" alt="Deko 2">
+    </div>
   </main>
 
   <script>
@@ -102,11 +111,11 @@
       const data = await res.json();
       const tbody = document.querySelector("#packlist tbody");
       tbody.innerHTML = "";
-      data.forEach((row, index) => {
+      data.forEach(row => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${row.Gegenstand}</td>
-          <td contenteditable="true" onblur="updatePerson('${row.Gegenstand}', this.innerText)">${row.Mitbringer}</td>
+          <td>${row.Mitbringer}</td>
           <td><button onclick="deleteItem('${row.Gegenstand}')" class="btn">🗑️</button></td>
         `;
         tbody.appendChild(tr);
@@ -136,14 +145,6 @@
         method: "DELETE"
       });
       loadItems();
-    }
-
-    async function updatePerson(itemName, newName) {
-      await fetch(`${API_URL}/Gegenstand/${itemName}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: { Mitbringer: newName } })
-      });
     }
 
     loadItems();
