@@ -7,12 +7,37 @@
   <title>Packliste Mielno 2025</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 2rem;
-      background: #f0f0f0;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f2f8ff;
+      color: #333;
     }
-    h1 {
+    header {
+      background: url('5616496-das-sonnenbaden-am-strand-am-meer-lufttrockner-foto-ansicht-der-ostseekueste-auf-der-halbinsel-hel-jastarnia-puck-bay-in-polen-jpg-blog.jpg') no-repeat center center/cover;
+      padding: 3rem;
       text-align: center;
+      color: white;
+      font-size: 2rem;
+      text-shadow: 2px 2px 4px #000;
+    }
+    main {
+      padding: 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .btn {
+      padding: 0.6rem 1.2rem;
+      background: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 0.5rem 0;
+    }
+    input {
+      padding: 0.5rem;
+      margin: 0.2rem;
+      width: calc(100% / 2 - 1rem);
     }
     table {
       width: 100%;
@@ -22,34 +47,52 @@
     }
     th, td {
       border: 1px solid #ccc;
-      padding: 0.5rem;
+      padding: 0.6rem;
       text-align: left;
     }
-    input, button {
-      padding: 0.5rem;
-      margin-top: 1rem;
+    img.gallery {
+      width: 100%;
+      max-width: 1000px;
+      margin: 1rem auto;
+      display: block;
+      border-radius: 8px;
+    }
+    @media (max-width: 600px) {
+      input {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🧳 Packliste Mielno 2025</h1>
+  <header>
+    🧳 Packliste Mielno 2025
+  </header>
 
-  <div>
-    <input type="text" id="item" placeholder="Neues Item (z. B. Badelatschen)">
-    <input type="text" id="person" placeholder="Wer bringt’s mit?">
-    <button onclick="addItem()">Hinzufügen</button>
-  </div>
+  <main>
+    <a href="index.html" class="btn">Zurück zur Startseite</a>
 
-  <table id="packlist">
-    <thead>
-      <tr>
-        <th>Gegenstand</th>
-        <th>Mitbringer</th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+    <div>
+      <input type="text" id="item" placeholder="Neues Item (z. B. Badelatschen)">
+      <input type="text" id="person" placeholder="Wer bringt’s mit?">
+      <button class="btn" onclick="addItem()">Hinzufügen</button>
+    </div>
+
+    <table id="packlist">
+      <thead>
+        <tr>
+          <th>Gegenstand</th>
+          <th>Mitbringer</th>
+          <th>Aktion</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <img class="gallery" src="ppo805_outdoor_01.jpg" alt="Außenbereich">
+    <img class="gallery" src="ppo805_living_03.jpg" alt="Wohnbereich">
+    <img class="gallery" src="5616495-danzig-mit-schoener-altstadt-ueber-dem-fluss-motlawa-bei-sonnenuntergang-polen-jpg-blog.jpg" alt="Danzig bei Sonnenuntergang">
+  </main>
 
   <script>
     const API_URL = "https://sheetdb.io/api/v1/dw3047o5lgt2c";
@@ -59,38 +102,48 @@
       const data = await res.json();
       const tbody = document.querySelector("#packlist tbody");
       tbody.innerHTML = "";
-      data.forEach(row => {
+      data.forEach((row, index) => {
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td>${row.Gegenstand}</td><td>${row.Mitbringer}</td>`;
+        tr.innerHTML = `
+          <td>${row.Gegenstand}</td>
+          <td contenteditable="true" onblur="updatePerson('${row.Gegenstand}', this.innerText)">${row.Mitbringer}</td>
+          <td><button onclick="deleteItem('${row.Gegenstand}')" class="btn">🗑️</button></td>
+        `;
         tbody.appendChild(tr);
       });
     }
 
     async function addItem() {
-      const item = document.getElementById("item").value;
-      const person = document.getElementById("person").value;
-
+      const item = document.getElementById("item").value.trim();
+      const person = document.getElementById("person").value.trim();
       if (!item) {
         alert("Bitte gib einen Gegenstand ein.");
         return;
       }
-
-      const newEntry = {
-        Gegenstand: item,
-        Mitbringer: person || ""
-      };
-
       await fetch(API_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: [newEntry] })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: [{ Gegenstand: item, Mitbringer: person }] })
       });
-
       document.getElementById("item").value = "";
       document.getElementById("person").value = "";
       loadItems();
+    }
+
+    async function deleteItem(itemName) {
+      if (!confirm(`"${itemName}" wirklich löschen?`)) return;
+      await fetch(`${API_URL}/Gegenstand/${itemName}`, {
+        method: "DELETE"
+      });
+      loadItems();
+    }
+
+    async function updatePerson(itemName, newName) {
+      await fetch(`${API_URL}/Gegenstand/${itemName}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ data: { Mitbringer: newName } })
+      });
     }
 
     loadItems();
