@@ -1,82 +1,99 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Packliste</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Packliste Mielno 2025</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f0f0f0;
+    }
+    h1 {
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    input, button {
+      padding: 0.5rem;
+      margin-top: 1rem;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <h1>🧳 Packliste</h1>
-  <nav>
-    <a href="inhalte.html">Start</a>
-    <a href="unterkunft.html">Unterkunft</a>
-    <a href="anfahrt.html">Anfahrt</a>
-    <a href="teilnehmer.html">Teilnehmer</a>
-    <a href="fun.html">Fun</a>
-  </nav>
-</header>
-<main>
-  <div id="liste"></div>
-  <h3>Ausgewählte Dinge</h3>
-  <table id="tabelle">
-    <thead><tr><th>Item</th><th>Wer bringt's?</th><th>Aktion</th></tr></thead>
-    <tbody></tbody>
+  <h1>🧳 Packliste Mielno 2025</h1>
+
+  <div>
+    <input type="text" id="item" placeholder="Neues Item (z. B. Badelatschen)">
+    <input type="text" id="person" placeholder="Wer bringt’s mit?">
+    <button onclick="addItem()">Hinzufügen</button>
+  </div>
+
+  <table id="packlist">
+    <thead>
+      <tr>
+        <th>Gegenstand</th>
+        <th>Mitbringer</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
   </table>
-</main>
-<a href="index.html" class="back-button">Zurück zur Startseite</a>
-<script>
-  const items = [
-    "Plantschbecken (groß)",
-    "Sonnencreme",
-    "Badehandtücher",
-    "Grillzubehör",
-    "Snacks & Getränke"
-  ];
 
-  let belegte = JSON.parse(localStorage.getItem("belegte")) || [];
+  <script>
+    const API_URL = "https://sheetdb.io/api/v1/dw3047o5lgt2c";
 
-  function render() {
-    const ul = document.getElementById("liste");
-    const tBody = document.querySelector("#tabelle tbody");
-    ul.innerHTML = "";
-    tBody.innerHTML = "";
+    async function loadItems() {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      const tbody = document.querySelector("#packlist tbody");
+      tbody.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row.Gegenstand}</td><td>${row.Mitbringer}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
 
-    items.forEach(item => {
-      if (!belegte.find(e => e.item === item)) {
-        const wrapper = document.createElement("div");
-        wrapper.innerHTML = `<input type="checkbox" id="${item}">
-          <label for="${item}">${item}</label>
-          <input type="text" id="name-${item}" placeholder="Name">
-          <button onclick="festlegen('${item}')">Festlegen</button>`;
-        ul.appendChild(wrapper);
+    async function addItem() {
+      const item = document.getElementById("item").value;
+      const person = document.getElementById("person").value;
+
+      if (!item) {
+        alert("Bitte gib einen Gegenstand ein.");
+        return;
       }
-    });
 
-    belegte.forEach((eintrag, i) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `<td>${eintrag.item}</td><td>${eintrag.name}</td>
-        <td><button onclick="loeschen(${i})">Löschen</button></td>`;
-      tBody.appendChild(row);
-    });
-  }
+      const newEntry = {
+        Gegenstand: item,
+        Mitbringer: person || ""
+      };
 
-  function festlegen(item) {
-    const name = document.getElementById("name-" + item).value;
-    if (!name) return alert("Bitte Namen eintragen!");
-    belegte.push({ item, name });
-    localStorage.setItem("belegte", JSON.stringify(belegte));
-    render();
-  }
+      await fetch(API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data: [newEntry] })
+      });
 
-  function loeschen(index) {
-    belegte.splice(index, 1);
-    localStorage.setItem("belegte", JSON.stringify(belegte));
-    render();
-  }
+      document.getElementById("item").value = "";
+      document.getElementById("person").value = "";
+      loadItems();
+    }
 
-  render();
-</script>
+    loadItems();
+  </script>
 </body>
 </html>
