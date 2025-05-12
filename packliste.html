@@ -20,6 +20,20 @@
       font-size: 2rem;
       text-shadow: 2px 2px 4px #000;
     }
+    nav {
+      background-color: #0077cc;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
     main {
       padding: 2rem;
       max-width: 1000px;
@@ -50,6 +64,9 @@
       padding: 0.6rem;
       text-align: left;
     }
+    th:last-child {
+      width: 40px;
+    }
     img.fixed {
       width: 48%;
       margin: 1rem 1%;
@@ -73,13 +90,16 @@
   </style>
 </head>
 <body>
-  <header>
-    🧳 Packliste Mielno 2025
-  </header>
+  <header>🧳 Packliste Mielno 2025</header>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="unterkunft.html">Unterkunft</a>
+    <a href="teilnehmer.html">Teilnehmer</a>
+    <a href="packliste.html">Packliste</a>
+    <a href="anfahrt.html">Anfahrt</a>
+  </nav>
 
   <main>
-    <a href="index.html" class="btn">Zurück zur Startseite</a>
-
     <div>
       <input type="text" id="item" placeholder="Neues Item (z. B. Badelatschen)">
       <input type="text" id="person" placeholder="Wer bringt’s mit?">
@@ -91,7 +111,7 @@
         <tr>
           <th>Gegenstand</th>
           <th>Mitbringer</th>
-          <th>Aktion</th>
+          <th></th>
         </tr>
       </thead>
       <tbody></tbody>
